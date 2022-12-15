@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>RSS Feed</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+   
+  </head>
+  <body>
+<!-- ⚠ Only works for website allowing CORS requests 
+fetch("https://dev.to/feed/gitlive") 
+
+@bomengidsnl@campaign.openworlds.info
+https://campaign.openworlds.info/users/bomengidsnl.rss
+-->
+
+    <main id="MastodonWidget">
+      <div id="feedWidget">
+      <a href="https://campaign.openworlds.info/@bomengidsnl">
+        <h1 class="caption">EU treeguide</h1>
+      </a>
+    </div>
+    </main>
+
+    <script>
+      fetch("https://www.hanscees.com/latestjpgs/feed.rss")
+        .then(response => response.text())
+        .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
+        .then(data => {
+          const items = data.querySelectorAll("item");
+          let html = ``;
+          html += `<h2 class="caption">${data.querySelector("title").innerHTML}</h2>`;
+          html += `<p class="caption">${data.querySelector("description").innerHTML}</p>`;
+          html += `<div id="tabContent">`; 
+          items.forEach(el => {
+            const textarea = document.createElement("textarea");
+            textarea.innerHTML = el.querySelector("title").innerHTML;
+            html += `
+              <article>
+                <h3 class="caption">
+                  <a href="${el.querySelector("link").innerHTML}" target="_blank" rel="noopener">
+                    ${textarea.innerText}
+                  </a>
+                </h3>
+                ${
+                  el.querySelector("content") ? `<img src="${el.querySelector("content")?.getAttribute("url")}" />` : ``
+                }
+              </article>
+            `;
+          });
+          html += `</div>`;
+          document.getElementById("feedWidget").insertAdjacentHTML("beforeend", html);
+        });
+    </script>
+  </body>
+</html>
