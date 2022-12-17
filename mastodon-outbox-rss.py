@@ -96,7 +96,7 @@ def enrich_statuses(statuslist):
         print(" is it sensitive? ", statusdict["sensitive"])
         if statusdict["sensitive"]:
             print("status is sensitive, well skip this toot")
-            break
+            continue
 
         if statusdict["attachment"]:  # if it has an image get variables
             imagedict=statusdict["attachment"][0]
@@ -105,7 +105,7 @@ def enrich_statuses(statuslist):
             print("\n")
         else:
             print("there no pic man")
-            break #we dont want to show toots without image
+            continue #we dont want to show toots without image
 
 
         #ok, so now we have ditched sensitive toots and  toots without images (not nice for widget)
